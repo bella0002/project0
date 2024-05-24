@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>profile</ion-title>
+    <div class="drop-area" #dropZone slot="end" style="margin: 5%;">
+      <ion-icon name="trash" size="large"></ion-icon>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <div class="cards">
+    <ion-card *ngFor="let summary of userSummaries" routerLink="/detail/{{summary.id}}" #card>
+      <ion-card-header>
+        <ion-card-title>{{summary.title}}</ion-card-title>
+        <ion-card-subtitle>{{summary.type}} summary by {{summary.writer}}</ion-card-subtitle>
+      </ion-card-header>
+    
+      <ion-card-content>
+        {{summary.topic}}
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <ion-button (click)="fb.signout()">Sign Out</ion-button>
+</ion-content>
+
+<ion-footer [translucent]="true">
+  <ion-toolbar>
+    <!--
+    <ion-button id="open-modal">
+      <ion-icon name="add"></ion-icon>
+    </ion-button>
+    -->
+    <ion-button routerLink="/profile">
+      <ion-icon name="person"></ion-icon>
+    </ion-button>
+    <ion-button routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

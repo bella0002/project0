@@ -1,0 +1,47 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>      {{summary.title}}    </ion-title>
+      <ion-back-button slot="start">back</ion-back-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-item>
+      topic : {{summary.topic}}
+    </ion-item>
+    <ion-item>
+      writer: {{summary.writer}}
+    </ion-item>
+    <ion-item>
+      date: {{summary.date}}
+    </ion-item>
+    <ion-item *ngIf="!book">      
+      summary: {{summary.summary}}
+    </ion-item>
+    <div *ngIf="book">
+      <ion-item *ngFor="let chapter of summary.chapters">
+        chapter {{chapter.chapter}}, summary: {{chapter.summary}}
+      </ion-item>
+    </div>
+  <br><br>
+<!--
+  <ion-item>
+    <ion-label position="stacked">Rating: {{ summary.rating }}</ion-label>
+  </ion-item>
+-->
+  <ion-item>
+    <ion-label position="stacked">Add Comment</ion-label>
+    <ion-input [(ngModel)]="newComment" placeholder="Enter your comment"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Rate this</ion-label>
+    <ion-range [(ngModel)]="newRating" min="1" max="5" step="1" pin="true">
+      <ion-label slot="start">1</ion-label>
+      <ion-label slot="end">5</ion-label>
+    </ion-range>
+  </ion-item>
+
+  <ion-button (click)="addCommentAndRating()">Submit Comment and Rating</ion-button>
+    
+</ion-content>

@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+    <ion-input type="email" label="Email" formControlName="email"></ion-input>
+    <div *ngIf="loginForm.controls['email'].hasError('required') && loginForm.controls['email'].touched">
+      <p>Sorry, field email is required!</p>
+    </div>
+    <ion-input type="password" label="Password" formControlName="password"></ion-input>
+    <div *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
+      <p>Sorry, field password is required!</p>
+    </div>
+    <ion-button type="submit" [disabled]="loginForm.invalid">Login</ion-button> <br>
+  </form>
+new user? <ion-button routerLink="/signup">Sign Up</ion-button>
+</ion-content>

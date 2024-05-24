@@ -1,0 +1,98 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <!-- Search Bar -->
+  <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="filterItems()"></ion-searchbar>
+
+
+  <ion-segment [(ngModel)]="filterOption" (ionChange)="filterItems()">
+    <ion-segment-button value="all">
+      <ion-label>All</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="idea">
+      <ion-label>Idea</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="article">
+      <ion-label>Article</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="book">
+      <ion-label>Book</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-card *ngFor="let summary of filteredSummaries" routerLink="/detail/{{summary.id}}">
+    <ion-card-header>
+      <ion-card-title>{{summary.title}}</ion-card-title>
+      <ion-card-subtitle>{{summary.type}} summary by {{summary.writer}}</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      {{summary.topic}}
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Share a Summary</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">Publish</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-radio-group [(ngModel)]="summary.type" label="Type" (ionChange)="type()">
+            <ion-radio value="idea">Idea</ion-radio><br />
+            <ion-radio value="article">Article</ion-radio><br />
+            <ion-radio value="book">Book</ion-radio>          
+          </ion-radio-group>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Title" labelPlacement="stacked" type="text" [(ngModel)]="summary.title"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Topics" labelPlacement="stacked" type="text" [(ngModel)]="summary.topic"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="!showBook">
+          <ion-textarea label="Summary" labelPlacement="stacked" [(ngModel)]="summary.summary"></ion-textarea>
+        </ion-item>
+        <div *ngIf="showBook">
+          <ion-item *ngFor="let c of summary.chapters; let i = index;">
+            <ion-input label="Chapter number" labelPlacement="stacked" [(ngModel)]="summary.chapters[i].chapter" type="number"></ion-input> 
+            <ion-textarea label="Chapter Summary" labelPlacement="stacked" [(ngModel)]="summary.chapters[i].summary"></ion-textarea>
+            <ion-button (click)="removeChapter(i)" [disabled]="remove">Remove Chapter</ion-button>
+          </ion-item>
+          <ion-button (click)="addChapter()">Add Chapter</ion-button>
+        </div>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+
+</ion-content>
+
+
+<ion-footer [translucent]="true">
+  <ion-toolbar>
+    <ion-button id="open-modal">
+      <ion-icon name="add"></ion-icon>
+    </ion-button>
+    <ion-button routerLink="/profile">
+      <ion-icon name="person"></ion-icon>
+    </ion-button>
+    <ion-button routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>signup</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <form [formGroup]="signForm" (ngSubmit)="signup(signForm.value)">
+      
+    <ion-input type="email" label="Email" formControlName="email" required></ion-input>
+    <div *ngIf="signForm.controls['email'].hasError('required') && signForm.controls['email'].touched">
+      <p>Sorry, field email is required!</p>
+    </div>
+    <div *ngIf="signForm.controls['email'].hasError('email') && signForm.controls['email'].touched">
+      <p>Sorry, invalid email format</p>
+    </div> 
+
+    <ion-input type="password" label="Password" formControlName="password" required erroText="error"></ion-input>
+    <div *ngIf="signForm.controls['password'].hasError('required') && signForm.controls['password'].touched">
+      <p>Sorry, field password is required!</p>
+    </div>
+    <div *ngIf="signForm.controls['password'].hasError('pattern') && signForm.controls['password'].touched">
+      <p>Sorry, password must contain at least one letter and one digit</p>
+    </div> 
+    <div *ngIf="signForm.controls['password'].hasError('maxlength') && signForm.controls['password'].touched">
+      <p>Sorry, maximum password length is 30!</p>
+    </div>
+    <div *ngIf="signForm.controls['password'].hasError('minlength') && signForm.controls['password'].touched">
+      <p>Sorry, minimum password length is 6!</p>
+    </div>
+
+    <ion-input type="password" label="Confirm Password" formControlName="passwordConfirm" required></ion-input>
+    <div *ngIf="signForm.controls['passwordConfirm'].hasError('required') && signForm.controls['passwordConfirm'].touched">
+      <p>Sorry, field password confirmation is required!</p>
+    </div>
+    <div *ngIf="signForm.errors?.['mismatch'] && signForm.controls['passwordConfirm'].touched">
+      <p>Sorry, password confirmation must equal the password</p>
+    </div> 
+
+    <ion-button type="submit" [disabled]="signForm.invalid">Sign Up</ion-button> <br>
+  </form>
+  already have an account? <ion-button routerLink="/login">Login</ion-button>
+
+</ion-content>
